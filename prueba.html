@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Poemas en Gerberas Espaciales</title>
+<style>
+    body {
+        background: radial-gradient(circle at top left, #1a0033 0%, #0a001a 50%, #000000 100%);
+        margin: 0;
+        overflow: hidden;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        height: 100vh;
+        position: relative;
+        font-family: 'Georgia', serif;
+    }
+
+    .star {
+        position: absolute;
+        background-color: #fff;
+        border-radius: 50%;
+        opacity: 0.8;
+        animation: twinkle 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes twinkle {
+        0% { opacity: 0.8; transform: scale(1); }
+        50% { opacity: 0.3; transform: scale(0.8); }
+        100% { opacity: 0.8; transform: scale(1); }
+    }
+
+    .gerbera-container {
+        position: relative;
+        width: 250px;
+        height: 250px;
+        animation: sway 7s ease-in-out infinite;
+        margin: 0 20px;
+        cursor: pointer; /* Cambia el cursor para indicar que es clickeable */
+        transition: transform 0.3s ease;
+    }
+    
+    .gerbera-container:hover {
+        transform: scale(1.1); /* Efecto de zoom al pasar el ratón */
+    }
+
+    .petal {
+        background-color: #FF69B4;
+        width: 40px;
+        height: 120px;
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform-origin: bottom center;
+        opacity: 0.8;
+        box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+    }
+
+    .petal-1 { transform: translate(-50%, -100%) rotate(0deg); }
+    .petal-2 { transform: translate(-50%, -100%) rotate(30deg); }
+    .petal-3 { transform: translate(-50%, -100%) rotate(60deg); }
+    .petal-4 { transform: translate(-50%, -100%) rotate(90deg); }
+    .petal-5 { transform: translate(-50%, -100%) rotate(120deg); }
+    .petal-6 { transform: translate(-50%, -100%) rotate(150deg); }
+    .petal-7 { transform: translate(-50%, -100%) rotate(180deg); }
+    .petal-8 { transform: translate(-50%, -100%) rotate(210deg); }
+    .petal-9 { transform: translate(-50%, -100%) rotate(240deg); }
+    .petal-10 { transform: translate(-50%, -100%) rotate(270deg); }
+    .petal-11 { transform: translate(-50%, -100%) rotate(300deg); }
+    .petal-12 { transform: translate(-50%, -100%) rotate(330deg); }
+
+    .center {
+        background-color: #FFD700;
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+    }
+
+    @keyframes sway {
+        0%, 100% { transform: rotate(-3deg); }
+        50% { transform: rotate(3deg); }
+    }
+
+    .shooting-star {
+        position: absolute;
+        height: 2px;
+        background: linear-gradient(-45deg, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+        border-radius: 999px;
+        filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.5));
+        animation: tail 3s ease-in-out infinite, shooting 3s ease-in-out infinite;
+        z-index: 2;
+    }
+
+    @keyframes tail {
+        0% { width: 0; } 30% { width: 100px; } 100% { width: 0; }
+    }
+
+    @keyframes shooting {
+        0% { transform: translateX(0) translateY(0) rotate(-45deg); opacity: 1; }
+        100% { transform: translateX(calc(100vw + 300px)) translateY(calc(-100vh - 300px)) rotate(-45deg); opacity: 0; }
+    }
+
+    /* --- ESTILOS PARA LA VENTANA EMERGENTE (MODAL) --- */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.4s ease, visibility 0.4s ease;
+        z-index: 1000;
+    }
+
+    .modal-overlay.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .modal-content {
+        background: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        width: 90%;
+        max-width: 500px;
+        text-align: center;
+        position: relative;
+        transform: scale(0.8);
+        transition: transform 0.4s ease;
+    }
+    
+    .modal-overlay.visible .modal-content {
+        transform: scale(1);
+    }
+
+    .modal-content h2 {
+        margin-top: 0;
+        color: #333;
+    }
+
+    .modal-content pre {
+        white-space: pre-wrap; /* Mantiene los saltos de línea del poema */
+        text-align: left;
+        color: #555;
+        font-size: 1.1em;
+        line-height: 1.6;
+    }
+
+    .close-button {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        font-size: 2em;
+        cursor: pointer;
+        color: #888;
+        transition: color 0.2s;
+    }
+    
+    .close-button:hover {
+        color: #333;
+    }
+
+</style>
+</head>
+<body>
+
+<div class="gerbera-container" id="gerbera1" style="animation-delay: 0s;">
+    <div class="center"></div>
+    <div class="petal petal-1"></div> <div class="petal petal-2"></div> <div class="petal petal-3"></div>
+    <div class="petal petal-4"></div> <div class="petal petal-5"></div> <div class="petal petal-6"></div>
+    <div class="petal petal-7"></div> <div class="petal petal-8"></div> <div class="petal petal-9"></div>
+    <div class="petal petal-10"></div> <div class="petal petal-11"></div> <div class="petal petal-12"></div>
+</div>
+
+<div class="gerbera-container" id="gerbera2" style="animation-delay: 2s; transform: rotate(5deg);">
+    <div class="center"></div>
+    <div class="petal petal-1" style="background-color: #9370DB;"></div>
+    <div class="petal petal-2" style="background-color: #9370DB;"></div>
+    <div class="petal petal-3" style="background-color: #9370DB;"></div>
+    <div class="petal petal-4" style="background-color: #9370DB;"></div>
+    <div class="petal petal-5" style="background-color: #9370DB;"></div>
+    <div class="petal petal-6" style="background-color: #9370DB;"></div>
+    <div class="petal petal-7" style="background-color: #9370DB;"></div>
+    <div class="petal petal-8" style="background-color: #9370DB;"></div>
+    <div class="petal petal-9" style="background-color: #9370DB;"></div>
+    <div class="petal petal-10" style="background-color: #9370DB;"></div>
+    <div class="petal petal-11" style="background-color: #9370DB;"></div>
+    <div class="petal petal-12" style="background-color: #9370DB;"></div>
+</div>
+
+<div class="gerbera-container" id="gerbera3" style="animation-delay: 4s; transform: rotate(-5deg);">
+    <div class="center"></div>
+    <div class="petal petal-1" style="background-color: #ADD8E6;"></div>
+    <div class="petal petal-2" style="background-color: #ADD8E6;"></div>
+    <div class="petal petal-3" style="background-color: #ADD8E6;"></div>
+    <div class="petal petal-4" style="background-color: #ADD8E6;"></div>
+    <div class="petal petal-5" style="background-color: #ADD8E6;"></div>
+    <div class="petal petal-6" style="background-color: #ADD8E6;"></div>
+    <div class="petal petal-7" style="background-color: #ADD8E6;"></div>
+    <div class="petal petal-8" style="background-color: #ADD8E6;"></div>
+    <div class="petal petal-9" style="background-color: #ADD8E6;"></div>
+    <div class="petal petal-10" style="background-color: #ADD8E6;"></div>
+    <div class="petal petal-11" style="background-color: #ADD8E6;"></div>
+    <div class="petal petal-12" style="background-color: #ADD8E6;"></div>
+</div>
+
+<div class="modal-overlay" id="modal1">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h2>TAMI</h2>
+        <pre>
+Con un tierno Alohomora abriste mi alma,
+y fuiste el Lumos que me devolvió la calma.
+Hoy eres mi Patronus, mi Snitch Dorada,
+mi hechizo de amor, mi alma encantada.
+        </pre>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal2">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h2>Soneto XVII</h2>
+        <pre>
+No te amo como si fueras rosa de sal, topacio
+o flecha de claveles que propagan el fuego:
+te amo como se aman ciertas cosas oscuras,
+secretamente, entre la sombra y el alma.
+
+Te amo como la planta que no florece y lleva
+dentro de sí, escondida, la luz de aquellas flores,
+y gracias a tu amor vive oscuro en mi cuerpo
+el apretado aroma que ascendió de la tierra.
+        
+        - Pablo Neruda
+        </pre>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal3">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h2>Amar</h2>
+        <pre>
+Amar es este tímido silencio
+cerca de ti, sin que lo sepas,
+y recordar tu voz cuando te marchas
+y sentir el calor de tu saludo.
+
+Amar es aguardarte
+como si fueras parte del ocaso,
+ni antes ni después, para que estemos solos
+entre los juegos y los cuentos
+sobre la tierra seca.
+
+        - Jorge Luis Borges
+        </pre>
+    </div>
+</div>
+
+
+<audio id="background-music" loop>
+    <source src="Pinceladas de amor.mp3" type="audio/mpeg">
+    Tu navegador no soporta el elemento de audio.
+</audio>
+
+<script>
+    // --- LÓGICA EXISTENTE ---
+    document.body.addEventListener('click', function (event) {
+        // Solo inicia la música si no se hizo clic en una gerbera
+        if (!event.target.closest('.gerbera-container')) {
+            document.getElementById('background-music').play();
+        }
+    }, { once: true });
+
+    function createStaticStars(count) {
+        for (let i = 0; i < count; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.width = star.style.height = (Math.random() * 3 + 1) + 'px';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.animationDelay = (Math.random() * 3) + 's';
+            document.body.appendChild(star);
+        }
+    }
+    createStaticStars(100);
+
+    function createShootingStar() {
+        const star = document.createElement('div');
+        star.className = 'shooting-star';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.animationDuration = (Math.random() * 2 + 2) + 's';
+        star.style.animationDelay = (Math.random() * 3) + 's';
+        document.body.appendChild(star);
+        star.addEventListener('animationend', () => star.remove());
+    }
+    setInterval(createShootingStar, 1000);
+
+    // --- NUEVA LÓGICA PARA LOS POEMAS ---
+    const gerberas = document.querySelectorAll('.gerbera-container');
+    const modals = document.querySelectorAll('.modal-overlay');
+    const closeButtons = document.querySelectorAll('.close-button');
+
+    // Función para abrir un modal específico
+    function openModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.classList.add('visible');
+        }
+    }
+
+    // Función para cerrar todos los modals
+    function closeModal() {
+        modals.forEach(modal => {
+            modal.classList.remove('visible');
+        });
+    }
+
+    // Añadir evento de clic a cada gerbera
+    gerberas.forEach((gerbera, index) => {
+        gerbera.addEventListener('click', () => {
+            // Detiene la propagación para que el clic no active la música
+            event.stopPropagation(); 
+            openModal(`modal${index + 1}`);
+        });
+    });
+
+    // Añadir evento de clic a cada botón de cerrar
+    closeButtons.forEach(button => {
+        button.addEventListener('click', closeModal);
+    });
+
+    // Añadir evento de clic al fondo del overlay para cerrar
+    modals.forEach(modal => {
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+    });
+
+</script>
+
+</body>
+</html>
